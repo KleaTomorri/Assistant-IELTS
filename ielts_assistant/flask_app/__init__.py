@@ -2,9 +2,9 @@ from flask import Flask
 
 def create_app():
     app = Flask(__name__, static_folder='static')
-    app.secret_key = "we will do it"
+    app.secret_key = "ur secret key"
     
-    # Import and register blueprints
+   
     from .controllers import auths, reading, listening, writing, speaking, chatbot
     
     app.register_blueprint(auths.auths_bp)
