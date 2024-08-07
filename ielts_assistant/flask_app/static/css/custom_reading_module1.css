@@ -1,0 +1,185 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    
+   
+}
+
+.navbar {
+    width: 100%; /* Make the navbar span the full width of the page */
+    position: fixed; /* Stick the navbar to the top */
+    top: 0;
+    left: 0;
+    background-color: white;
+    padding: 1rem;
+    z-index: 1000; /* Ensure the navbar stays above other content */
+   
+}
+
+.navbar .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Optional: set a max-width for content */
+    margin: 0 auto; /* Center the navbar content */
+}
+
+.navbar .navbar-brand h1 {
+    color: #000000;
+    font-family:'Roboto', sans-serif ; /* Change font style here */
+    font-weight: 800;
+    margin: 0;
+}
+
+.navbar .navbar-links {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    font-family:'Roboto', sans-serif ; /* Change font style here */
+    font-weight: 600;
+    margin: 0;
+}
+
+.navbar .navbar-links .nav-link {
+    color: #000000;
+   
+    margin-left: 1rem;
+    font-size: 1rem;
+    text-decoration: none;
+    font-family:'Roboto', sans-serif ; 
+}
+
+.navbar .navbar-links .nav-link:hover {
+    color: #000000; 
+    background-color: #df98f156;
+    border-radius: 50%;
+    padding:20px 20px;
+}
+
+/* Add an icon next to the Lessons link */
+.navbar .navbar-links .nav-link .icon {
+    margin-right: 0.5rem;
+    font-size: 1.2rem; /* Adjust icon size */
+}
+
+.navbar .nav-container .navbar-brand img{
+    width:15%;
+    font-weight:500;
+    color:black;
+}
+/* Styling for the user icon */
+.user-icon {
+    display: inline-block;
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 10px 5px;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1;
+}
+
+
+
+/* Styles for the h1 element */
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-top: 180px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Form Container */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+}
+
+
+
+
+.soli input {
+    font-size: 1.2rem;
+    font-family: "Ubuntu", sans-serif;
+    border:2px solid black;
+    width:500px;
+    padding:20px 10px;
+}
+label, input, button {
+    margin: 0.5rem 0;
+}
+
+.soli{
+    display: flex;
+}
+.soli button{
+
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 800px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding:10px 20px;
+    font-size: 1rem;
+}
+input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+}
+
+
+
+button:hover {
+    background-color: #a23cbe;
+}
+
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    flex-direction: column;
+}
+
+.overlay.active {
+    display: flex;
+}
+
+.overlay img{ max-width: 150px;
+    margin-bottom: 20px;}
+
+
+.overlay p{
+    margin-top: 20px !important;
+    margin-bottom: 20px;
+}

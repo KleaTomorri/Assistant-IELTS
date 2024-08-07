@@ -1,0 +1,48 @@
+.questionnaire-container {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+.question-container {
+    display: none;
+}
+
+.question-container.active {
+    display: block;
+}
+
+.btn-next {
+    margin-top: 20px;
+}
+
+.form-check {
+    margin-bottom: 20px;
+}
+
+.marf {
+    margin-bottom: 30px;
+}
+
+.form-check-label {
+    display: inline-block;
+    width: 100%;
+    padding: 20px 10px;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-check-input {
+    margin-right: 10px;
+}
+
+.form-check a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.form-check:hover .form-check-label {
+    background-color: #b6e7ff;
+    border: 1px solid rgb(8, 143, 245);
+}

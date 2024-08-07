@@ -1,0 +1,313 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0px 0px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+
+
+/* General styling for the navbar */
+.navbar {
+    width: 100%; /* Make the navbar span the full width of the page */
+    position: fixed; /* Stick the navbar to the top */
+    top: 0;
+    left: 0;
+    background-color: white;
+    padding: 1rem;
+    z-index: 1000; /* Ensure the navbar stays above other content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for depth */
+}
+
+.navbar .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Optional: set a max-width for content */
+    margin: 0 auto; /* Center the navbar content */
+}
+
+.navbar .navbar-brand h1 {
+    color: #000000;
+    font-family:'Roboto', sans-serif ; /* Change font style here */
+    font-weight: 800;
+    margin: 0;
+}
+
+.navbar .navbar-links {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    font-family:'Roboto', sans-serif ; /* Change font style here */
+    font-weight: 600;
+    margin: 0;
+}
+
+.navbar .navbar-links .nav-link {
+    color: #000000;
+   
+    margin-left: 1rem;
+    font-size: 1rem;
+    text-decoration: none;
+    font-family:'Roboto', sans-serif ; 
+}
+
+.navbar .navbar-links .nav-link:hover {
+    color: #000000; 
+    background-color: #df98f156;
+    border-radius: 50%;
+    padding:20px 20px;
+}
+
+/* Add an icon next to the Lessons link */
+.navbar .navbar-links .nav-link .icon {
+    margin-right: 0.5rem;
+    font-size: 1.2rem; /* Adjust icon size */
+}
+
+.navbar .nav-container .navbar-brand img{
+    width:15%;
+    font-weight:500;
+    color:black;
+}
+/* Styling for the user icon */
+.user-icon {
+    display: inline-block;
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 10px 5px;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1;
+}
+
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .navbar .navbar-links {
+        flex-direction: column;
+        text-align: center;
+    }
+    .navbar .navbar-links .nav-link {
+        margin: 0.5rem 0;
+    }
+}
+
+.container0 {
+    width: 80%;
+    max-width: 1200px;
+    height: 80%;
+    margin-top: 0px;
+    background-size: cover;  /* Ensure the gradient covers the entire container */
+    background-position: center;  
+    padding: 20px; /* Optional: add some padding if needed */
+    border-radius: 10px;
+    /* background: linear-gradient(to left, 
+    #cce0ff,  /* Lightest blue */
+    #99c2ff,  /* Light blue */
+    #b8d5f4,  /* Medium blue */
+    #d5dfff   /* Dark blue */
+
+}
+
+/* Content alignment */
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    margin-top: 0px;
+}
+
+/* Text and button styles */
+.text-container {
+    flex: 1;
+    text-align: left;
+}
+
+.text-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    
+}
+
+.er{
+    display: flex;
+}
+
+.text-container .btn {
+    display: block;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    padding: 15px 35px;
+    margin-top: 60px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50px;
+    margin-right: 20px;
+    font-family:'Roboto', sans-serif ; /* Change font style here */
+    font-weight: 600;
+}
+.text-container .btn9 {
+    font-family:'Roboto', sans-serif ; 
+    font-weight: 600;
+    display: block;
+    background-color:transparent;
+    color: #000000;
+    border: none;
+    padding: 15px 35px;
+    margin-top: 60px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50px;
+    border:2px solid blue;
+}
+
+.text-container .btn:hover {
+    background-color: #5e5eea;
+    color: #ffffff;
+}
+.text-container .btn9:hover {
+    background-color: #5e5eea;
+    color: #ffffff;
+}
+
+.text-container .btn + .btn {
+    margin-left: 10px;
+}
+
+/* Image container styles */
+.image-container {
+    flex: 1;
+    text-align: right;
+}
+
+.image-container img {
+    max-width: 500px!important;
+    height: 500px!important;
+}
+/* Feature Section Styles */
+
+
+
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 36px;
+    transition: all 0.3s ease;
+    color: #3256d8;
+}
+
+.feature-icon:hover {
+    transform: scale(1.1);
+}
+
+.col-md-3 h4 {
+    color: #4208e2; /* Changed to white for the feature headings */
+    margin-bottom: 1rem;
+    font-family:'Roboto', sans-serif ; /* Change font style here */
+    font-weight: 600;
+}
+
+.col-md-3 p {
+    color: #000000; /* Changed to white for the feature descriptions */
+}
+
+/* Learn More Section Styles */
+#learn-more {
+    background-color: rgba(244, 249, 253, 0.9);
+    padding: 3rem 0;
+    border-radius: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#learn-more h1 {
+    color: #000000;
+    margin-bottom: 1rem;
+  
+}
+
+.description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #000000;
+    color: rgb(249, 178, 237);
+    padding: 40px 0;
+}
+
+.footer a {
+    color: #f8f9fa;
+}
+
+.footer a:hover {
+    color: #f3bbf4;
+    text-decoration: none;
+}
+
+.footer .social-icons a {
+    font-size: 24px;
+    margin: 0 10px;
+}
+
+.footer .footer-logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .col-md-3 {
+        margin-bottom: 2rem;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+}

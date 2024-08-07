@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Writing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/ielts_writing.css">
+   
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="navbar-brand" href="/home" style="font-weight:700; color:black; font-size:1.2em; margin-left:10px; text-decoration:none;">
+                <img src="/static/images/orbido..png" alt="">RBIDO
+            </a>
+            <div class="navbar-links">
+                <a class="nav-link" href="/home">Home</a>
+                <a class="nav-link" href="/">IELTS</a>
+                <a class="nav-link" href="/">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color: #e7b40a; margin-right:10px;"></i>Lessons
+                </a>
+                <a class="nav-link" href="/">My Progress</a>
+                <a class="nav-link" href="javascript:void(0);" onclick="toggleSidebar()">
+                    <div class="user-icon">{{ session.user_initials }}</div>
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="user-initials">{{ session.user_initials }}</div>
+            <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        </div>
+        <div class="sidebar-content">
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="container" id="main-section">
+        <div class="text-content">
+            <h1 id="main-title">IELTS General Writing Test</h1>
+            <p id="main-description">Take this free test to understand your IELTS performance</p>
+            <div class="buttons">
+                <a id="start-practice-btn" href="/writing/free-general-ielts-writing-test" class="button">Start Practice</a>
+                <a href="javascript:void(0);" class="button second" onclick="showWritingTips()">Writing Tips</a>
+            </div>
+        </div>
+        <div class="image-content">
+            <img src="/static/images/write0.jpg" alt="IELTS Writing">
+        </div>
+    </div>
+    
+    <div class="toggle">
+        <button id="general-test-btn" class="active" onclick="showTest('general')" style="border-right:3px solid rgb(255, 10, 255)">General Test</button>
+        <button id="academic-test-btn" class="second" onclick="showTest('academic')">Academic Test</button>
+    </div>
+    
+    <div class="modules" id="modules-container">
+    </div>
+    
+    <div id="coming-soon-popup" class="popup-overlay">
+        <div class="popup">
+            <span class="close-btn" onclick="hidePopup('coming-soon-popup')">&times;</span>
+            <h2>Coming Soon!</h2>
+            <p>Stay tuned for more content.</p>
+            <button class="button" onclick="hidePopup('coming-soon-popup')">OK</button>
+        </div>
+    </div>
+    
+    <div id="writing-tips-popup" class="popup-overlay">
+        <div class="popup">
+            <span class="close-btn" onclick="hidePopup('writing-tips-popup')">&times;</span>
+            <h2 style="font-width:800; margin-bottom:15px; font-size:2rem; font-family:'Roboto',sans-serif";>IELTS WRITING TIPS  <i class="fa-solid fa-lightbulb" style="color: #FFD43B;"></i></h2>
+            <div style="align-items:flex-start !important; text-align:center !important;">
+                <p><strong>IELTS Writing Types:</strong></p>
+                <p>IELTS Writing has two types: Academic and General Training.</p>
+                <p><strong>Exam Format:</strong></p>
+                <p>Both Academic and General Training have two tasks.</p>
+                <p>Task 1: 20 minutes, 150 words required.</p>
+                <p>Task 2: 40 minutes, 250 words required; contributes twice as much as Task 1 to the writing score.</p>
+                <p><strong>Academic Writing:</strong></p>
+                <p>Topics are of general interest to, and suitable for, those entering undergraduate and postgraduate studies or seeking professional registration.</p>
+                <p>Task 1: Describe, summarise, or explain a graph, table, chart, or diagram.</p>
+                <p>Task 2: Write an essay in response to a point of view, argument, or problem in a formal style.</p>
+                <p><strong>General Training Writing:</strong></p>
+                <p>Topics are of general interest.</p>
+                <p>Task 1: Write a letter requesting information or explaining a situation, in a personal, semi-formal, or formal style.</p>
+                <p>Task 2: Write an essay in response to a point of view, argument, or problem, which can be fairly personal in style.</p>
+                <button class="button" onclick="hidePopup('writing-tips-popup')">Got It</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const generalModules = [
+            { title: '#1 Politic- Request and Opinion, Formal', description: '', image: '/static/images/module1.jpg', link: '' },
+            { title: '#2 Flora & Fauna-Discussion Part 1', description: '', image: '/static/images/12.png', link: '/general/module2' },
+            { title: '#3 Flora & Fauna-Discussion Part 2', description: '', image: '/static/images/8.png', link: '/general/module3' },
+            { title: '#4 Media & News-Opinion', description: '', image: '/static/images/56.png', link: '/writing/start_practice' },
+            { title: '#5 Economy-Request and Discussion', description: '', image: '/static/images/cfd.png', link: '' },
+            { title: '#6 Sport & Hobbies-Conversation', description: '', image: '/static/images/sport.png', link: '/general/module3' },
+            { title: '#7 Health-Request & Formal, Opinion ', description: '', image: '/static/images/health.png', link: '/writing/start_practice' },
+            { title: '#8 Art-Conversational & Discussion', description: '', image: '/static/images/art.png', link: '/general/module2' },
+            { title: '#9 Thanks & Informal-Interpretation', description: '', image: '/static/images/rt.png', link: '/general/module3' }
+            // Add more modules as needed
+        ];
+    
+        const academicModules = [
+            { title: '#1 Pie chart-Transport-Interpretation', description: '', image: '/static/images/pie_acad.png', link: '' },
+            { title: '#2 Graph line-Science & 2 part questions', description: '', image: '/static/images/graph1.png', link: '/academic/moduleB' },
+            { title: '#3 Diagram-Economy and discussion', description: '', image: '/static/images/diagram0.png', link: '/academic/moduleC' },
+            // Add more modules as needed
+        ];
+    
+        function showTest(testType) {
+            const title = document.getElementById('main-title');
+            const description = document.getElementById('main-description');
+            const startPracticeBtn = document.getElementById('start-practice-btn');
+            const modulesContainer = document.getElementById('modules-container');
+            
+            // Clear existing modules
+            modulesContainer.innerHTML = '';
+    
+            const modules = testType === 'general' ? generalModules : academicModules;
+            const testTitle = testType === 'general' ? 'IELTS General Writing Test' : 'IELTS Academic Writing Test';
+            const testDescription = testType === 'general' 
+                ? 'Take this free test to understand your IELTS performance'
+                : 'Take this free test to understand your IELTS performance';
+    
+            title.textContent = testTitle;
+            description.textContent = testDescription;
+    
+            // Update the Start Practice button link
+            startPracticeBtn.href = testType === 'general' ? '/writing/general-task1' : '/writing/academic_task1';
+    
+            modules.forEach((module, index) => {
+                const moduleElement = document.createElement('a');
+                moduleElement.href = index === 0 ? module.link : '#'; // Allow only the first module to navigate
+                moduleElement.className = 'module' + (index >= 0 ? ' locked' : ''); // Add 'locked' class to locked modules
+                moduleElement.innerHTML = `
+                    <img src="${module.image}" alt="${module.title}">
+                    <div class="lock-icon"><i class="fas fa-lock"></i></div>
+                    <h3>${module.title}</h3>
+                    <p>${module.description}</p>
+                `;
+                
+                if (index >= 0) {
+                    moduleElement.addEventListener('click', function(event) {
+                        event.preventDefault(); // Prevent default navigation
+                        showPopup('coming-soon-popup');
+                    });
+                }
+                
+                modulesContainer.appendChild(moduleElement);
+            });
+    
+            document.getElementById('general-test-btn').classList.toggle('active', testType === 'general');
+            document.getElementById('academic-test-btn').classList.toggle('active', testType === 'academic');
+        }
+
+        function showPopup(popupId) {
+            document.getElementById(popupId).style.display = 'flex';
+        }
+
+        function hidePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        function showWritingTips() {
+            showPopup('writing-tips-popup');
+        }
+
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+        }
+
+        // Initialize with General Test
+        showTest('general');
+    </script>
+</body>
+</html>

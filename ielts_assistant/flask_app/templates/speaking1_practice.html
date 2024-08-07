@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Recording</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/speaking1_practice.css">
+    <style>
+        .mic-icon {
+            font-size: 3rem;
+            color: #000000;
+            cursor: pointer;
+            background-color: transparent;
+        }
+        .recording {
+            color: rgb(207, 24, 173);
+        }
+        #progress-bar-container {
+            margin-top: 20px;
+            width: 100%;
+            background-color: #e9ecef;
+            position: fixed;
+            bottom: 100px;
+        }
+        #progress-bar {
+            height: 5px;
+            background-color: #df14b9;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(255, 255, 255);
+            color: white;
+            text-align: center;
+            font-size: 1.5em;
+            padding-top: 5%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading-overlay img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+        .loading-overlay h2 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .loading-overlay p {
+            margin: 0;
+            font-size: 1.2em;
+            color: rgb(0, 0, 0);
+        }
+        #loading-timer {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="navbar-brand" href="/home" style="font-weight:700; color:black; font-size:1.2em; margin-left:10px;">
+                <img src="/static/images/orbido..png" alt="">RBIDO
+            </a>
+        </div>
+    </nav>
+    <div class="container text-center">
+        <h2 id="question">Question will appear here</h2>
+        <div class="mic-container">
+            <div id="mic-icon" class="mic-icon">
+                <i class="fa-solid fa-microphone"></i>
+            </div>
+            <p id="status">Answer the questions carefully and clearly</p>
+            <p id="recording-time">00:00</p>
+        </div>
+        <button id="submit-button" class="btn btn-primary" style="display:none;">Submit</button>
+    </div>
+
+    <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+    </div>
+    <div id="controls">
+        <button id="record-toggle" class="btn btn-primary textu">
+            <span class="text">Start Recording</span>
+        </button>
+        <button id="next-button" class="btn btn-success textu" disabled>Next >></button>
+    </div>
+
+    <p id="warning" style="display: none;">You should record for at least 5 seconds to answer this question</p>
+    <input type="hidden" id="current-index" value="0">
+    <input type="hidden" id="total-questions" value="8">
+
+    <div id="loading-overlay" class="loading-overlay">
+        <img src="/static/images/module1.jpg">
+        <p>We are analyzing your answer...</p>
+        <p style="font-size:1rem; margin-top:20px;">It might take some time...</p>
+        <p id="loading-timer">0s</p>
+    </div>
+
+    <script>
+        const questions = [
+            "How are you today?",
+            "What did you do over the weekend?",
+            "What is your favourite spot in your city?",
+            "What are some of the most pressing environmental issues facing our planet today, and what steps can we take to address them?",
+            "How has technology impacted the way we communicate and interact with one another, and what are some of the potential consequences of these changes?",
+            "What are some of the most effective strategies for promoting diversity and inclusion in the workplace, and how can we ensure that everyone feels valued and respected?",
+            "How has the COVID-19 pandemic affected our daily lives, and what lessons can we learn from this experience to better prepare for future crises?",
+            "What are some of the most important qualities of effective leadership, and how can we cultivate these skills in ourselves and others?",
+            "What are the main benefits and drawbacks of working from home compared to working in an office?",
+            "How do different cultures approach education and learning, and what can we learn from these diverse perspectives?",
+            "What role does social media play in shaping public opinion and how can we navigate its influence?",
+            "How do advancements in artificial intelligence impact various industries and job markets?"
+        ];
+    
+        let currentIndex = parseInt(document.getElementById('current-index').value) || 0;
+        const totalQuestions = parseInt(document.getElementById('total-questions').value) || questions.length;
+        let recordingStartTime;
+        let mediaRecorder;
+        let audioChunks = [];
+        let recordingInterval;
+        let isRecording = false;
+        let recordedTime = 0;
+    
+        function updateProgressBar() {
+            const progress = ((currentIndex + 1) / totalQuestions) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+    
+        function showLoadingOverlay() {
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex';
+            const timer = document.getElementById('loading-timer');
+            let seconds = 0;
+    
+            const interval = setInterval(() => {
+                seconds += 1;
+                timer.innerText = `${seconds}s`;
+                if (seconds >= 10) { // Adjust total loading time as needed
+                    clearInterval(interval);
+                    overlay.style.display = 'none';
+                    window.location.href = '/speaking/feedback'; // Redirect to feedback page
+                }
+            }, 2000);
+        }
+    
+        function loadQuestion() {
+    if (currentIndex < totalQuestions - 1) {
+        document.getElementById('question').innerText = questions[currentIndex];
+        document.getElementById('next-button').disabled = true;
+        document.getElementById('submit-button').style.display = 'none';
+        document.getElementById('record-toggle').style.display = 'block';
+        document.getElementById('warning').style.display = 'none';
+    } else {
+        document.getElementById('question').innerText = "Congratulations! You have completed all questions. Click Submit to finish.";
+        document.getElementById('next-button').style.display = 'none';
+        document.getElementById('submit-button').style.display = 'block';
+        document.getElementById('record-toggle').style.display = 'none';
+        document.getElementById('warning').style.display = 'none';
+
+        // Automatically stop recording after the last question
+        if (isRecording) {
+            mediaRecorder.stop();
+            isRecording = false;
+            document.getElementById('record-toggle').innerHTML = '<span class="text">Start Recording</span>';
+            document.getElementById('status').innerText = 'Recording stopped';
+            clearInterval(recordingInterval); // Stop the timer interval
+        }
+    }
+}
+
+    
+        function updateTimer() {
+            const minutes = Math.floor(recordedTime / 60);
+            const seconds = Math.floor(recordedTime % 60);
+            document.getElementById('recording-time').innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+    
+        loadQuestion();
+        updateProgressBar();
+    
+        document.getElementById('record-toggle').addEventListener('click', async () => {
+            const recordButton = document.getElementById('record-toggle');
+            const icon = document.getElementById('mic-icon');
+    
+            if (isRecording) {
+                mediaRecorder.stop();
+                icon.classList.remove('recording');
+                document.getElementById('status').innerText = 'Recording stopped';
+                recordButton.innerHTML = '<span class="text">Start Recording</span>';
+                clearInterval(recordingInterval);
+                isRecording = false;
+                document.getElementById('next-button').disabled = false; // Enable Next button after stopping recording
+            } else {
+                try {
+                    const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(audioStream);
+                    mediaRecorder.start();
+                    recordingStartTime = Date.now() - recordedTime * 1000; // Adjust start time to continue from where it left off
+                    document.getElementById('status').innerText = 'Recording...';
+                    audioChunks = [];
+                    icon.classList.add('recording');
+                    recordingInterval = setInterval(() => {
+                        recordedTime = (Date.now() - recordingStartTime) / 1000;
+                        updateTimer();
+    
+                        if (recordedTime >= 5) {
+                            document.getElementById('next-button').disabled = false; // Enable Next button after 5 seconds
+                        }
+                    }, 1000);
+    
+                    mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
+                    mediaRecorder.onstop = async () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        const formData = new FormData();
+                        formData.append('audio', audioBlob);
+                        try {
+                            const response = await fetch('/speaking/submit_audio', {
+                                method: 'POST',
+                                body: formData
+                            });
+                            if (response.ok) {
+                                console.log('Audio submitted successfully');
+                            } else {
+                                throw new Error('Failed to submit audio');
+                            }
+                        } catch (error) {
+                            console.error('Audio submission error:', error);
+                        }
+                    };
+                    isRecording = true;
+                    recordButton.innerHTML = '<span class="text">Stop Recording</span>';
+                } catch (error) {
+                    console.error('Recording error:', error);
+                }
+            }
+        });
+    
+        document.getElementById('next-button').addEventListener('click', () => {
+            if (recordedTime >= 5) { // Ensure the recording is at least 5 seconds
+                currentIndex++;
+                document.getElementById('current-index').value = currentIndex;
+                loadQuestion();
+                updateProgressBar();
+            } else {
+                document.getElementById('warning').style.display = 'block';
+            }
+        });
+    
+        
+        document.getElementById('submit-button').addEventListener('click', async () => {
+            if (isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                clearInterval(recordingInterval); // Stop the timer interval
+            }
+            showLoadingOverlay();
+            
+            try {
+                const response = await fetch('/speaking/submit_all', { method: 'POST' });
+                if (!response.ok) {
+                    throw new Error('Failed to submit responses');
+                }
+                // Redirect to feedback page after processing
+                setTimeout(() => {
+                    window.location.href = '/speaking/feedback';
+                }, 10000); // Adjust delay as needed
+            } catch (error) {
+                console.error('Submission error:', error);
+            }
+        });
+        
+        
+    </script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback</title>
+    <link rel="stylesheet" href="C:/Users/USER/Desktop/IELTS24-main/flask_app/static/css/reading_feedback.css">
+    <style>
+      body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        #feedback-content {
+            margin: 20px;
+        }
+        .faq-item {
+            margin: 10px 0;
+        }
+        .faq-question {
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        .faq-answer {
+            margin: 5px 0;
+            display: none;
+        }
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        .faq-summary {
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(255, 254, 254);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .overlay-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 700;
+            color:black;
+        }
+        .feedback{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(255, 254, 254);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .feedback-content{
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 700;
+            color:black;
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <img src="/static/images/robo3.webp" alt="Loading">
+            <p> We are preparing your feedback...</p>
+        </div>
+    </div>
+
+    <!-- Feedback content -->
+    <div id="feedback" class="feedback" style="display: none;">
+    <div id="feedback-content" class="feedback-content" style="display: none;">
+       <img src="C:/Users/USER/Desktop/IELTS24-main/flask_app/static/images/robo1.webp" alt="Loading">
+        <p>Hello {{ session.user_first_name }},</p>
+        <p>Your score is <strong>{{ feedback.score }}%</strong>. You answered <strong>{{ feedback.total_correct }}</strong> out of <strong>{{ feedback.total_questions }}</strong> questions correctly.</p>
+        
+        {% if feedback.score == 100 %}
+            <p>Outstanding performance! You answered every question correctly. Keep up the excellent work!</p>
+        {% elif feedback.score >= 75 %}
+            <p>Great job! You have a strong grasp of the material. To further enhance your skills, consider reviewing any missed areas.</p>
+        {% elif feedback.score >= 50 %}
+            <p>Good effort! You have a solid understanding but there's room for improvement. Review the material and focus on the areas where you missed questions.</p>
+        {% else %}
+            <p>Keep practicing! Understanding and mastering this material takes time. Review the passage and questions thoroughly and try again.</p>
+        {% endif %}
+        
+        <h2 class="faq-summary">See the details</h2>
+        
+        <h2>Recommendations</h2>
+        <p>{{ feedback.recommendations }}</p>
+
+        <p>Topic: {{ topic }}</p>
+    </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show the overlay
+            document.getElementById('overlay').style.display = 'flex';
+
+            // Hide overlay and show content after 5 seconds
+            setTimeout(function() {
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('feedback-content').style.display = 'block';
+                document.getElementById('feedback').style.display = 'block';
+            }, 5000);
+
+            // FAQ functionality
+            var faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(function(item) {
+                item.querySelector('.faq-question').addEventListener('click', function() {
+                    item.classList.toggle('active');
+                });
+            });
+
+            // Summary toggle functionality
+            document.querySelector('.faq-summary').addEventListener('click', function() {
+                var faq = document.getElementById('faq');
+                if (faq.style.display === 'none' || faq.style.display === '') {
+                    faq.style.display = 'block';
+                    this.textContent = 'Hide Answer Details';
+                } else {
+                    faq.style.display = 'none';
+                    this.textContent = 'Show Answer Details';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
