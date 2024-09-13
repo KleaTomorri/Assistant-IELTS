@@ -2,6 +2,9 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 import os
 import speech_recognition as sr
 import uuid
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 speaking_bp = Blueprint('speaking', __name__)
@@ -22,6 +25,7 @@ QUESTIONS = [
     "How do advancements in artificial intelligence impact various industries and job markets?",
 ]
 
+UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER')
 
 @speaking_bp.route('/modules', methods=['GET'])
 def speaking_modules():

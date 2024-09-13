@@ -1,10 +1,14 @@
 from flask import Flask
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 def create_app():
     app = Flask(__name__, static_folder='static')
-    app.secret_key = "ur secret key"
-    
-   
+    app.secret_key = os.getenv("FLASK_SECRET_KEY")  
+
     from .controllers import auths, reading, listening, writing, speaking, chatbot
     
     app.register_blueprint(auths.auths_bp)

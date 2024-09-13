@@ -1,11 +1,14 @@
-# flask_app/controllers/chatbot.py
 from flask import Blueprint, render_template, request, session, jsonify
 from ai71 import AI71
+from dotenv import load_dotenv
 import os
 
 chatbot_bp = Blueprint('chatbot', __name__)
 
-AI71_API_KEY = 'api71-api-547d865a-e5de-4710-8fa8-55b1579a6392'
+load_dotenv()
+
+AI71_API_KEY = os.getenv('AI71_API_KEY')
+
 client = AI71(AI71_API_KEY)
 
 with open("chatbot.guide") as f:

@@ -15,10 +15,7 @@ class WritingResponse:
 
     @classmethod
     def save_response(cls, data: dict) -> int:
-        """
-        Saves a new response to the database.
-        Returns the ID of the newly inserted row.
-        """
+        
         query = """
         INSERT INTO writing_responses (user_id, module, task_number, response)
         VALUES (%(user_id)s, %(module)s, %(task_number)s, %(response)s);
@@ -28,10 +25,7 @@ class WritingResponse:
 
     @classmethod
     def get_responses_by_user(cls, user_id: int) -> list:
-        """
-        Retrieves all responses by a specific user.
-        Returns a list of WritingResponse objects.
-        """
+        
         query = "SELECT * FROM writing_responses WHERE user_id = %(user_id)s;"
         results = connectToMySQL(cls.DB).query_db(query, {"user_id": user_id})
         responses = [cls(row) for row in results]

@@ -2,7 +2,10 @@ import requests
 import os
 from flask import Blueprint, render_template, request
 from gtts import gTTS
+from dotenv import load_dotenv
 from ai71 import AI71
+
+load_dotenv()
 
 listening_bp = Blueprint('listening', __name__, url_prefix='/listening')
 
@@ -21,19 +24,16 @@ def process_listening():
     audio_url = generate_audio(passage)
     return render_template('listening_result.html', audio_url=audio_url, questions=questions)
 
-
-
-
 def generate_listening_passage_and_questions(topic):
     api_url = "https://api.ai71.ai/v1/chat/completions"
-    api_key = "api71-api-547d865a-e5de-4710-8fa8-55b1579a6392"
+    api_key = os.getenv('AI71_API_KEY')  
 
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
 
-
+    # The rest of the function remains unchanged
     passage_payload = {
         "model": "tiiuae/falcon-180B-chat",
         "messages": [
@@ -52,7 +52,6 @@ def generate_listening_passage_and_questions(topic):
         print("Generated Passage:")
         print(passage)
 
-       
         questions_payload = {
             "model": "tiiuae/falcon-180B-chat",
             "messages": [
@@ -67,7 +66,6 @@ def generate_listening_passage_and_questions(topic):
         questions_data = questions_response.json()
         questions_raw = [choice["message"]["content"] for choice in questions_data["choices"]]
 
-      
         fill_in_the_blank = []
         alternatives = []
         typing = []
@@ -80,7 +78,6 @@ def generate_listening_passage_and_questions(topic):
             elif "typing" in question:
                 typing.append(question)
 
-      
         questions = {
             "fill_in_the_blank": fill_in_the_blank,
             "alternatives": alternatives,
@@ -95,7 +92,6 @@ def generate_listening_passage_and_questions(topic):
     except requests.RequestException as e:
         print("An error occurred:", e)
         return None, None
-
 
 def generate_audio(passage_text):
     audio_dir = os.path.join('flask_app', 'static', 'audio')
@@ -115,12 +111,7 @@ def generate_audio(passage_text):
 
 @listening_bp.route('/submit_listening_answers', methods=['POST'])
 def submit_listening_answers():
-   
     answers = request.form.to_dict()
-  
-    
     print("Submitted Answers:")
     print(answers)
-    
-
-    return render_template('some_response_page.html')  
+    return render_template('some_response_page.html')

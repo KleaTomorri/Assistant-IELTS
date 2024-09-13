@@ -1,32 +1,32 @@
 import os
-import random
-from flask import Blueprint, render_template, request, redirect, url_for, session,Request
+import re
+import logging
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from ai71 import AI71
+from dotenv import load_dotenv
 
+load_dotenv()
 
-AI71_API_KEY = "api71-api-547d865a-e5de-4710-8fa8-55b1579a6392"
-client = AI71(AI71_API_KEY)
 
 writing_bp = Blueprint('writing', __name__)
 
-import re
+
+AI71_API_KEY = os.getenv('AI71_API_KEY')
+client = AI71(AI71_API_KEY)
 
 def clean_text(text):
-    unwanted_patterns = [r'\bUSER\b', r'\bPROMPT\b', r'\bSITUATION\b', r'\bUSER\b']
+    unwanted_patterns = [r'\bUSER\b', r'\bPROMPT\b', r'\bSITUATION\b']
     combined_pattern = '|'.join(unwanted_patterns)
     cleaned_text = re.sub(combined_pattern, '', text)
     cleaned_text = ' '.join(cleaned_text.split())
-    
     return cleaned_text
 
 @writing_bp.route('/modules', methods=['GET'])
 def writing_practices():
     return render_template('ielts_writing.html')
 
-
 @writing_bp.route('/general-task1', methods=['GET'])
 def general_task1():
-   
     messages = [
         {"role": "system", "content": "You are an IELTS examiner. Generate a unique Task 1 prompt for IELTS General Writing."},
         {"role": "user", "content": "Task 1: Candidates are presented with a situation and are asked to write a letter requesting information or explaining the situation. The letter may be personal, semi-formal, or formal in style. Provide a prompt for this task."}
@@ -37,25 +37,18 @@ def general_task1():
         temperature=0.7 
     )
     
-    
     task1_data = task1_response.choices[0].message.content
-    
-  
     task1_data = clean_text(task1_data)
     
     session['task1'] = task1_data  
     return render_template('general_task1.html', task=task1_data)
 
-
 def clean_prompt(prompt):
-   
     prompt = re.sub(r'\b(USER:|PROMPT:|SITUATION:|TASK:)\b', '', prompt, flags=re.IGNORECASE)
     return prompt.strip()
 
-
 @writing_bp.route('/general-task2', methods=['POST'])
 def general_task2():
-
     task1_answer = request.form.get('task1_answer')
     session['task1_answer'] = task1_answer
 
@@ -69,16 +62,11 @@ def general_task2():
         temperature=0.7  
     )
 
- 
     task2_data = task2_response.choices[0].message.content
     task2_data_cleaned = clean_prompt(task2_data)
     session['task2'] = task2_data_cleaned  
 
     return render_template('general_task2.html', task=task2_data_cleaned)
-
-
-
-
 
 @writing_bp.route('/submit', methods=['POST'])
 def submit_tasks():
@@ -119,7 +107,6 @@ def submit_tasks():
 
         feedback = feedback_response.choices[0].message.content if feedback_response and feedback_response.choices else None
         if feedback:
-    
             task1_feedback, task2_feedback = "", ""
             if "Task 2" in feedback:
                 parts = feedback.split("Task 2", 1)
@@ -129,6 +116,7 @@ def submit_tasks():
                 task1_feedback = feedback.strip()
             logging.debug("Task 1 Feedback: %s", task1_feedback)
             logging.debug("Task 2 Feedback: %s", task2_feedback)
+
             def extract_sections(feedback):
                 sections = {}
                 for section in ["Grammar", "Vocabulary", "Coherence", "Context", "Word Count"]:
@@ -164,21 +152,7 @@ def submit_tasks():
                            feedback_task2_coherence=task2_sections['Coherence'],
                            feedback_task2_context=task2_sections['Context'])
 
-
-
-
-
-
-
-
-
-
-
-
-#ACADEMIC WRITING ROUTES
-
-
-
+# Academic Writing Routes
 @writing_bp.route('/academic_task1', methods=['GET', 'POST'])
 def academic_task1():
     if request.method == 'POST':
@@ -187,18 +161,13 @@ def academic_task1():
 
     return render_template('academic_task1.html')
 
-
 @writing_bp.route('/academic_task2', methods=['GET', 'POST'])
 def academic_task2():
     if request.method == 'POST':
         session['academic_task2_answer'] = request.form.get('academic_task2_answer')
         return redirect(url_for('writing.submit_academic_tasks'))
 
-    return render_template('acdemic_task2.html')
-
-
-
-import logging
+    return render_template('academic_task2.html')
 
 @writing_bp.route('/submit_academic_tasks', methods=['GET', 'POST'])
 def submit_academic_tasks():
@@ -239,7 +208,6 @@ def submit_academic_tasks():
 
         feedback = feedback_response.choices[0].message.content if feedback_response and feedback_response.choices else None
         if feedback:
-
             task1_feedback, task2_feedback = "", ""
             if "Task 2 Answer:" in feedback:
                 parts = feedback.split("Task 2 Answer:", 1)

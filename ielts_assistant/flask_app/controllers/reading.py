@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for
 import requests
+import os
+from flask import Blueprint, render_template, request, session, redirect, url_for
 
 from flask_app.models.reading import Question, UserAnswer, UserProgress
 
-api_key = "api71-api-547d865a-e5de-4710-8fa8-55b1579a6392"
+
+api_key = os.getenv('AI71_API_KEY')  
 api_url = "https://api.ai71.ai/v1/chat/completions"
 
 reading_bp = Blueprint('reading', __name__)

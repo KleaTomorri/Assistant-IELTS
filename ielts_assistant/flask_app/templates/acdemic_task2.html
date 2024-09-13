@@ -76,7 +76,7 @@
         </div>
     </div>
     
-    <!-- Overlay HTML -->
+   
     <div class="overlay" id="overlay">
         <div class="overlay-content">
             <img src="/static/images/robo3.webp" alt="Loading Image">
@@ -95,7 +95,7 @@
             const progressPercentage = Math.min((wordCount / 500) * 100, 100);
             progressBar.style.width = `${progressPercentage}%`;
 
-            // Limiting to 500 words
+            
             if (wordCount > 500) {
                 textarea.value = textarea.value.trim().split(/\s+/).slice(0, 500).join(' ');
                 wordCountDisplay.textContent = `500/500 words`;
@@ -111,20 +111,20 @@
             
             if (wordCount < 250 || wordCount > 500) {
                 errorMessage.style.display = 'block';
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault(); 
             } else {
                 errorMessage.style.display = 'none';
-                overlay.style.display = 'flex'; // Show overlay
+                overlay.style.display = 'flex'; 
             }
         });
 
-        // Update word count and progress bar on input
+      
         document.getElementById('task2-answer').addEventListener('input', updateWordCount);
 
-        // Initialize progress bar
+      
         document.addEventListener('DOMContentLoaded', function() {
             const progressBar = document.getElementById('progress-bar');
-            // Assuming Task 2 is half-complete when loaded
+            
             progressBar.style.width = '50%';
         });
     </script>

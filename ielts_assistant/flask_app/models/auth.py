@@ -6,14 +6,19 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from itsdangerous import URLSafeTimedSerializer
-
 from dotenv import load_dotenv
 import os
 
 
 load_dotenv()
 
-s = URLSafeTimedSerializer("SECRET_KEY")
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+
+
+s = URLSafeTimedSerializer(SECRET_KEY)
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 PASSWORD_REGEX = re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$')
@@ -71,11 +76,9 @@ class User:
 
     @staticmethod
     def send_verification_email(email, code):
-        
-        sender_email = os.getenv("EMAIL_ADDRESS")
-        password = os.getenv("EMAIL_PASSWORD")
+        sender_email = EMAIL_ADDRESS
+        password = EMAIL_PASSWORD
         receiver_email = email
-        
 
         message = MIMEMultipart()
         message["Subject"] = "Email Verification Code"
@@ -100,15 +103,11 @@ class User:
     def generate_verification_code():
         return random.randint(100000, 999999)
 
-
-
     @staticmethod
     def send_password_reset_email(email, reset_url):
-        
-        sender_email = os.getenv("EMAIL_ADDRESS")
-        password = os.getenv("EMAIL_PASSWORD")
+        sender_email = EMAIL_ADDRESS
+        password = EMAIL_PASSWORD
         receiver_email = email
-        
 
         message = MIMEMultipart()
         message["Subject"] = "Password Reset Request"
