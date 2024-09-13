@@ -1,5 +1,5 @@
 # IELTS
-Here are some screenshots of the platform # logic & design
+# Here are some screenshots of the platform design 👇
 
 ![0](https://github.com/user-attachments/assets/cfada78f-d510-4906-9bc7-ec55d6ad1db4)
 ![2](https://github.com/user-attachments/assets/32e25441-8292-483a-8a10-5a20d126982a)
