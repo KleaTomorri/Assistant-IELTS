@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS General Writing Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        .instructions {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #666;
+        }
+        .textarea-container {
+            margin-top: 10px;
+        }
+        .textarea-container textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+        .word-count {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        .button-group {
+            margin-top: 20px;
+        }
+        .button-group button {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .button-group button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="task1">
+        <div class="title">IELTS General Writing Test - Task 1</div>
+        <div class="content">
+            <p>Given Situation:</p>
+            <p>You recently moved to a new city and would like to invite a friend to visit you. Write a letter to your friend explaining why they should visit and what you have planned for their stay.</p>
+            <p>Instructions:</p>
+            <ul>
+                <li>Write at least 150 words.</li>
+                <li>Include reasons why your friend should visit.</li>
+                <li>Mention any plans or activities you have for their stay.</li>
+            </ul>
+        </div>
+        <div class="textarea-container">
+            <textarea id="task1-response" placeholder="Write your letter here..."></textarea>
+            <div class="word-count" id="task1-word-count">Word Count: 0</div>
+        </div>
+        <div class="button-group">
+            <button id="to-task2">Next Task</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="task2">
+        <div class="title">IELTS General Writing Test - Task 2</div>
+        <div class="content">
+            <p>Given Topic:</p>
+            <p>Some people think that the best way to increase road safety is to increase the minimum legal age for driving cars or motorbikes. To what extent do you agree or disagree?</p>
+            <p>Instructions:</p>
+            <ul>
+                <li>Write at least 250 words.</li>
+                <li>Present your opinion clearly.</li>
+                <li>Provide arguments and examples to support your view.</li>
+            </ul>
+        </div>
+        <div class="textarea-container">
+            <textarea id="task2-response" placeholder="Write your essay here..."></textarea>
+            <div class="word-count" id="task2-word-count">Word Count: 0</div>
+        </div>
+        <div class="button-group">
+            <button id="submit">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        function countWords(text) {
+            return text.trim().split(/\s+/).length;
+        }
+
+        document.getElementById('task1-response').addEventListener('input', function() {
+            const wordCount = countWords(this.value);
+            document.getElementById('task1-word-count').textContent = `Word Count: ${wordCount}`;
+            document.getElementById('to-task2').disabled = wordCount < 150;
+        });
+
+        document.getElementById('to-task2').addEventListener('click', function() {
+            document.getElementById('task1').classList.add('hidden');
+            document.getElementById('task2').classList.remove('hidden');
+        });
+
+        document.getElementById('task2-response').addEventListener('input', function() {
+            const wordCount = countWords(this.value);
+            document.getElementById('task2-word-count').textContent = `Word Count: ${wordCount}`;
+        });
+
+        document.getElementById('submit').addEventListener('click', function() {
+            const task1Response = document.getElementById('task1-response').value;
+            const task2Response = document.getElementById('task2-response').value;
+
+            // Send responses to server (use AJAX/fetch API for real implementation)
+            console.log('Task 1 Response:', task1Response);
+            console.log('Task 2 Response:', task2Response);
+
+            alert('Your responses have been submitted!');
+        });
+    </script>
+</body>
+</html>

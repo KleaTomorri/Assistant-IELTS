@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Speaking Practice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/ielts_writing.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="navbar-brand" href="/home" style="font-weight:700; color:black; font-size:1.2em; margin-left:10px; text-decoration:none;">
+                <img src="/static/images/orbido..png" alt="">RBIDO
+            </a>
+            <div class="navbar-links">
+                <a class="nav-link" href="/home">Home</a>
+                <a class="nav-link" href="/home">IELTS</a>
+                <a class="nav-link" href="/home">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color: #e7b40a; margin-right:10px;"></i>Lessons
+                </a>
+                <a class="nav-link" href="/home">My Progress</a>
+                <a class="nav-link" href="javascript:void(0);" onclick="toggleSidebar()">
+                    <div class="user-icon">{{ session.user_initials }}</div>
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="user-initials">{{ session.user_initials }}</div>
+            <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        </div>
+        <div class="sidebar-content">
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="container" id="main-section">
+        <div class="text-content">
+            <h1 id="main-title">IELTS Speaking Practice</h1>
+            <p id="main-description">Take this free test to understand your IELTS speaking performance</p>
+            <div class="buttons">
+                <a id="start-practice-btn" href="/speaking/advanced-speaking-practice" class="button">Start Practice</a>
+                <a href="javascript:void(0);" class="button second" onclick="showSpeakingTips()">Speaking Tips</a>
+            </div>
+        </div>
+        <div class="image-content">
+            <img src="/static/images/advanced-speaking-practice.png" alt="IELTS Speaking">
+        </div>
+    </div>
+    
+    <div class="toggle">
+        <button id="full-test-btn" class="active" onclick="showTest('full')">Full Test</button>
+        <button id="part1-2-btn" class="second" onclick="showTest('part1-2')">Part 1-2</button>
+        <button id="part3-btn" class="second" onclick="showTest('part3')">Part 3</button>
+    </div>
+    
+    <div class="modules" id="modules-container">
+        <!-- Initial modules will be displayed here -->
+    </div>
+    
+    <div id="coming-soon-popup" class="popup-overlay">
+        <div class="popup">
+            <span class="close-btn" onclick="hidePopup('coming-soon-popup')">&times;</span>
+            <h2>Coming Soon!</h2>
+            <p>Stay tuned for more content.</p>
+            <button class="button" onclick="hidePopup('coming-soon-popup')">OK</button>
+        </div>
+    </div>
+    
+    <div id="speaking-tips-popup" class="popup-overlay">
+        <div class="popup">
+            <span class="close-btn" onclick="hidePopup('speaking-tips-popup')">&times;</span>
+            <h2 style="font-weight:800; margin-bottom:15px; font-size:2rem; font-family:'Roboto',sans-serif;">IELTS Speaking Tips <i class="fa-solid fa-lightbulb" style="color: #FFD43B;"></i></h2>
+            <div style="text-align:left;">
+                <p><strong>About IELTS Speaking:</strong></p>
+                <p>10 Questions</p>
+                <p>15 Minutes</p>
+                <p><strong>Part 1:</strong> General questions about yourself and simple topics: home, family, work, studies, and interests to warm you up. Duration: 4-5 minutes.</p>
+                <p><strong>Part 2:</strong> Specific topic to express your ideas on. Duration: 1 minute to prepare, 1-2 minutes to speak.</p>
+                <p><strong>Part 3:</strong> Other questions to dig deeper into the Part 2 topic. Duration: 4-5 minutes.</p>
+                <button class="button" onclick="hidePopup('speaking-tips-popup')">Got It</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fullTestModules = [
+            { title: '#1 Introduction and Interview', description: '', image: '/static/images/speak21.png', link: '' },
+            { title: '#2 Long Turn', description: '', image: '/static/images/soc0.webp', link: '' },
+            { title: '#3 Discussion', description: '', image: '/static/images/int1.png', link: '' },
+            { title: '#4 Hobbies', description: '', image: '/static/images/sport.png', link: '' },
+            { title: '#5 Holidays', description: '', image: '/static/images/holiday0.webp', link: '' },
+            { title: '#6 School', description: '', image: '/static/images/dashb1.webp', link: '' },
+            // Add more modules as needed
+        ];
+    
+        const part1_2Modules = [
+            { title: '#1 Opinion-Education', description: '', image: '/static/images/book1.webp', link: '' },
+            { title: '#2 Politic-Opinion', description: '', image: '/static/images/module1.jpg', link: '' },
+            { title: '#3 Jobs-Discussion', description: '', image: '/static/images/daash1.webp', link: '' },
+            { title: '#4 Economy- Long Turn', description: '', image: '/static/images/cfd.png', link: '' },
+            { title: '#5 Flora & Fauna Part 1', description: '', image: '/static/images/6.jpg', link: '' },
+            { title: '#5 Flora & Fauna Part 2', description: '', image: '/static/images/12.png', link: '' },
+            // Add more modules as needed
+        ];
+    
+        const part3Modules = [
+            { title: '#1 Emotions-Discussion', description: '', image: '/static/images/emotions.png', link: '' },
+            { title: '#2 Money & Society', description: '', image: '/static/images/money.webp', link: '' },
+            { title: '#3 Laws & Humans', description: '', image: '/static/images/56.png', link: '' },
+            { title: '#4 Health & Insurance', description: '', image: '/static/images/health.png', link: '' },
+            { title: '#5 Animal Rights', description: '', image: '/static/images/8.png', link: '' },
+            { title: '#6 Work Environment', description: '', image: '/static/images/int1.png', link: '' },
+            // Add more modules as needed
+        ];
+
+        // Show the Full Test modules initially
+        showTest('full');
+    
+        function showTest(testType) {
+            const title = document.getElementById('main-title');
+            const description = document.getElementById('main-description');
+            const startPracticeBtn = document.getElementById('start-practice-btn');
+            const modulesContainer = document.getElementById('modules-container');
+            
+            // Clear existing modules
+            modulesContainer.innerHTML = '';
+    
+            const modules = testType === 'full' ? fullTestModules 
+                          : testType === 'part1-2' ? part1_2Modules 
+                          : part3Modules;
+            const testTitle = testType === 'full' ? 'IELTS Speaking Practice' 
+                          : testType === 'part1-2' ? 'IELTS Speaking Practice' 
+                          : 'IELTS Speaking Practice';
+            const testDescription = 'Take this free test to understand your IELTS speaking performance';
+    
+            title.textContent = testTitle;
+            description.textContent = testDescription;
+    
+            // Update the Start Practice button link
+            startPracticeBtn.href = testType === 'full' ? '/speaking/advanced-speaking-practice' 
+                                     : testType === 'part1-2' ? '/speaking/advanced-speaking-practice' 
+                                     : '/speaking/advanced-speaking-practice';
+    
+            modules.forEach((module, index) => {
+                const moduleElement = document.createElement('a');
+                moduleElement.href = index === 0 ? module.link : '#'; // Allow only the first module to navigate
+                moduleElement.className = 'module' + (index >= 0 ? ' locked' : ''); // Add 'locked' class to locked modules
+                moduleElement.innerHTML = `
+                    <img src="${module.image}" alt="${module.title}">
+                    <div class="lock-icon"><i class="fas fa-lock"></i></div>
+                    <h3>${module.title}</h3>
+                    <p>${module.description}</p>
+                `;
+                
+                if (index >= 0) {
+                    moduleElement.addEventListener('click', function(event) {
+                        event.preventDefault(); // Prevent default navigation
+                        showPopup('coming-soon-popup');
+                    });
+                }
+                
+                modulesContainer.appendChild(moduleElement);
+            });
+    
+            document.getElementById('full-test-btn').classList.toggle('active', testType === 'full');
+            document.getElementById('part1-2-btn').classList.toggle('active', testType === 'part1-2');
+            document.getElementById('part3-btn').classList.toggle('active', testType === 'part3');
+        }
+    
+        function showPopup(popupId) {
+            document.getElementById(popupId).style.display = 'flex';
+        }
+    
+        function hidePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+    
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+    
+        function showSpeakingTips() {
+            showPopup('speaking-tips-popup');
+        }
+    </script>
+</body>
+</html>
