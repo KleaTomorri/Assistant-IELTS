@@ -1,4 +1,4 @@
-# IELTS
+# Ielts
 # Here are some screenshots of the platform design 👇
 
 ![0](https://github.com/user-attachments/assets/3a299276-5b58-479c-92a6-7f92fae141fd)
