@@ -1,5 +1,5 @@
 # Ielts
-# Here are some screenshots of the platform design 👇
+# Overview👇
 
 ![0](https://github.com/user-attachments/assets/3a299276-5b58-479c-92a6-7f92fae141fd)
 ![2](https://github.com/user-attachments/assets/bd464860-8d64-4c01-9751-50fed82e5862)
